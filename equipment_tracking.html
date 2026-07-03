@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPLMS · Equipment Tracking</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="equipment_tracking.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon"><i class="fa-solid fa-microchip"></i></span>
+      <span class="brand-name">RPLMS</span>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="#"><i class="fa-solid fa-table-cells"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="#"><i class="fa-solid fa-users"></i><span>Team Management</span></a>
+      <a class="nav-item" href="#"><i class="fa-solid fa-boxes-stacked"></i><span>Inventory Management</span></a>
+      <a class="nav-item" href="#"><i class="fa-solid fa-file-lines"></i><span>Material Requests</span></a>
+      <a class="nav-item" href="#"><i class="fa-solid fa-rotate-left"></i><span>Material Returns</span></a>
+      <a class="nav-item active" href="#" data-view="dashboard"><i class="fa-solid fa-screwdriver-wrench"></i><span>Equipment Tracking</span></a>
+      <a class="nav-item" href="#"><i class="fa-solid fa-bars-staggered"></i><span>Tickets</span></a>
+      <a class="nav-item" href="#"><i class="fa-solid fa-circle-user"></i><span>Profile</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <span class="avatar">PS</span>
+        <div class="user-meta">
+          <span class="user-name">Dr. Priya Sharma</span>
+          <span class="user-role">Lab Incharge</span>
+        </div>
+      </div>
+      <a class="logout" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+      <div class="weather">
+        <i class="fa-solid fa-cloud-rain"></i>
+        <div>
+          <span class="weather-temp">27°C</span>
+          <span class="weather-desc">Light rain</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="main">
+
+    <!-- ---------- DASHBOARD VIEW ---------- -->
+    <section id="view-dashboard" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Equipment Tracking</h1>
+          <p>Track and monitor all lab equipment usage and availability.</p>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" aria-label="Notifications">
+            <i class="fa-solid fa-bell"></i>
+            <span class="badge">3</span>
+          </button>
+          <div class="date-chip"><i class="fa-regular fa-calendar"></i><span id="today-date">03 Jul 2026</span></div>
+        </div>
+      </header>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-icon icon-blue"><i class="fa-solid fa-desktop"></i></span>
+          <div class="stat-body">
+            <span class="stat-label">Total Equipment</span>
+            <span class="stat-value">28</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon icon-green"><i class="fa-solid fa-check"></i></span>
+          <div class="stat-body">
+            <span class="stat-label">In Use</span>
+            <span class="stat-value">14</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon icon-amber"><i class="fa-regular fa-clock"></i></span>
+          <div class="stat-body">
+            <span class="stat-label">Available</span>
+            <span class="stat-value">8</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon icon-purple"><i class="fa-solid fa-hand-sparkles"></i></span>
+          <div class="stat-body">
+            <span class="stat-label">Under Maintenance</span>
+            <span class="stat-value">3</span>
+          </div>
+        </div>
+        <div class="stat-card stat-card--action">
+          <span class="stat-icon icon-red"><i class="fa-solid fa-triangle-exclamation"></i></span>
+          <div class="stat-body">
+            <span class="stat-label">Out of Service</span>
+            <span class="stat-value">3</span>
+            <button class="btn btn-primary btn-sm" id="btn-goto-service">Service</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Equipment List</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Team ID</th>
+                <th>Team Name</th>
+                <th>Component Request</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="equipment-list-body">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- OUT FOR SERVICE VIEW ---------- -->
+    <section id="view-service" class="view" hidden>
+      <header class="page-header">
+        <div>
+          <h1>Out for Service</h1>
+          <p>Select equipment to mark as out for service.</p>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" aria-label="Notifications">
+            <i class="fa-solid fa-bell"></i>
+            <span class="badge">3</span>
+          </button>
+          <div class="date-chip"><i class="fa-regular fa-calendar"></i><span>03 Jul 2026</span></div>
+        </div>
+      </header>
+
+      <div class="panel">
+        <h2 class="panel-title">Available Equipment</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-narrow">S.No</th>
+                <th>Equipment ID</th>
+                <th>Equipment Name</th>
+                <th class="col-narrow">Select</th>
+              </tr>
+            </thead>
+            <tbody id="service-list-body">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-footer">
+          <button class="btn btn-primary" id="btn-out-for-service">
+            <i class="fa-solid fa-screwdriver-wrench"></i> Out for Service
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-overlay" id="request-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <h2 id="modal-title">Equipment Request Details</h2>
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="modal-meta">
+      <div><span class="meta-label">Team ID</span><span class="meta-value" id="m-team-id">:</span></div>
+      <div><span class="meta-label">Request Date</span><span class="meta-value" id="m-date">:</span></div>
+      <div><span class="meta-label">Team Name</span><span class="meta-value" id="m-team-name">:</span></div>
+      <div><span class="meta-label">Requested By</span><span class="meta-value" id="m-by">:</span></div>
+    </div>
+
+    <div class="table-wrap modal-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Component / Item</th>
+            <th>Requested Quantity</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="m-component">—</td>
+            <td id="m-qty">—</td>
+            <td id="m-details">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-action">
+      <h3>Action</h3>
+      <div class="action-row">
+        <button class="btn btn-accept" id="btn-accept"><i class="fa-solid fa-check"></i> Accept</button>
+        <button class="btn btn-reject" id="btn-reject"><i class="fa-solid fa-xmark"></i> Reject</button>
+      </div>
+
+      <div class="divider"><span>OR</span></div>
+
+      <label class="field-label" for="reject-reason">If rejecting, please provide feedback <span class="required">*</span></label>
+      <textarea id="reject-reason" maxlength="300" placeholder="Enter reason for rejection..."></textarea>
+      <div class="char-count"><span id="char-count">0</span> / 300</div>
+
+      <div class="modal-buttons">
+        <button class="btn btn-ghost" id="btn-cancel">Cancel</button>
+        <button class="btn btn-primary" id="btn-submit-feedback" disabled>Submit Feedback</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="equipment_tracking.js"></script>
+</body>
+</html>
