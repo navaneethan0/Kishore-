@@ -54,7 +54,7 @@
             <div class="sidebar-footer">
                 <a href="#" class="menu-item">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    <span>Sign Out</span>
+                    <span style="color: #fca5a5;">Sign Out</span>
                 </a>
             </div>
         </aside>
@@ -74,13 +74,13 @@
                 </div>
                 
                 <div class="navbar-right">
-                    <div class="nav-icon">
+                    <a href="notification.html" class="nav-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                         <span class="badge">3</span>
-                    </div>
+                    </a>
                     <div class="user-profile">
                         <div class="user-info">
-                            <p class="user-name">Dr. Faculty Name</p>
+                            <p class="user-name">Senior Faculty Name</p>
                             <p class="user-role">Senior Faculty</p>
                         </div>
                         <div class="user-avatar">
@@ -101,13 +101,13 @@
                             <div class="bulk-info">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                                 <div>
-                                    <span class="bulk-title">Bulk Upload (Excel)</span>
-                                    <span class="bulk-desc">Upload multiple students via Excel</span>
+                                    <span class="bulk-title"><a href="upload.html">Upload (Excel)</a></span>
+                                    <span class="bulk-desc"> multiple students via Excel</span>
                                 </div>
                             </div>
                             <button class="btn btn-outline btn-sm">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Download Template
+                                <a href="#">Download Template</a>
                             </button>
                         </div>
                     </div>
@@ -124,11 +124,11 @@
                     <!-- Form Section -->
                     <div class="card form-card">
                         <h4 class="form-section-title">Student Information</h4>
-                        <form id="profileForm">
-                            <div class="form-grid">
+                        <form id="profileForm" novalidate>
+                            <!-- <div class="form-grid">
                                 <div class="form-group">
                                     <label>Full Name <span>*</span></label>
-                                    <input type="text" id="fullName" placeholder="Enter full name" required>
+                                    <input type="text" id="fullName" placeholder="Enter full name" minlength="3" maxlength="50" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Date of Birth <span>*</span></label>
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Phone Number <span>*</span></label>
-                                    <input type="tel" id="phoneNumber" placeholder="Enter phone number" required>
+                                    <input type="tel" id="phoneNumber" maxlength="10" placeholder="Enter phone number" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Department <span>*</span></label>
@@ -160,16 +160,76 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Roll Number / ID <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline; margin-left:4px; vertical-align:middle; cursor:help;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></label>
-                                    <input type="text" id="rollNumber" placeholder="Enter roll number">
+                                    <input type="text" id="rollNumber" maxlength="20" placeholder="Enter roll number">
                                 </div>
                                 <div class="form-group full-width">
                                     <label>Email ID</label>
-                                    <input type="email" id="email" placeholder="Enter email address">
+                                    <input type="email" id="email"  placeholder="Enter email address" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Password (Temporary) <span>*</span></label>
                                     <div class="input-with-icon">
-                                        <input type="password" id="password" placeholder="Enter temporary password" required>
+                                        <input type="password" id="password" minlength="8" required>
+                                        <button type="button" class="icon-btn toggle-password">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password <span>*</span></label>
+                                    <div class="input-with-icon">
+                                        <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                                        <button type="button" class="icon-btn toggle-password">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Full Name <span>*</span></label>
+                                    <input type="text" id="fullName" placeholder="Enter full name" minlength="3" maxlength="50" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Birth <span>*</span></label>
+                                    <input type="date" id="dob" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number <span>*</span></label>
+                                    <input type="tel" id="phoneNumber" maxlength="10" placeholder="Enter phone number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Department <span>*</span></label>
+                                    <select id="department" required>
+                                        <option value="">Select department</option>
+                                        <option value="AI & DS">AI & DS</option>
+                                        <option value="CSE">CSE</option>
+                                        <option value="IT">IT</option>
+                                        <option value="ECE">ECE</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="batchGroup">
+                                    <label>Batch / Year <span>*</span></label>
+                                    <select id="batch" required>
+                                        <option value="">Select batch/year</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Roll Number / ID <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline; margin-left:4px; vertical-align:middle; cursor:help;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></label>
+                                    <input type="text" id="rollNumber" maxlength="20" placeholder="Enter roll number">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Email ID</label>
+                                    <input type="email" id="email"  placeholder="Enter email address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Password (Temporary) <span>*</span></label>
+                                    <div class="input-with-icon">
+                                        <input type="password" id="password" minlength="8" required>
                                         <button type="button" class="icon-btn toggle-password">
                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                         </button>
@@ -222,7 +282,7 @@
                                     <span class="label">Department</span>
                                     <span class="value" id="prev-dept">-</span>
                                 </div>
-                                <div class="preview-item">
+                                <div class="preview-item" id="previewBatchItem">
                                     <span class="label">Batch / Year</span>
                                     <span class="value" id="prev-batch">-</span>
                                 </div>
@@ -250,7 +310,6 @@
                                 <tr>
                                     <th>Sl. No</th>
                                     <th>Name</th>
-                                    <th>Role</th>
                                     <th>Department</th>
                                     <th>Batch / Year</th>
                                     <th>Created On</th>
@@ -268,7 +327,7 @@
                 </div>
 
                 <footer class="mt-40 text-center text-muted fs-12">
-                    &copy; 2025 ILP Rapid Prototyping Lab Management System. All rights reserved.
+                    &copy; 2026 ILP Rapid Prototyping Lab Management System. All rights reserved.
                 </footer>
             </div>
         </main>
@@ -287,6 +346,7 @@
     </div>
 
     <script src="../js/app.js"></script>
+    <script src="../js/validation.js"></script>
     <script src="../js/add-profile.js"></script>
 </body>
 </html>

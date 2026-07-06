@@ -1,5 +1,5 @@
 /**
- * Add Profile Logic for RPLMS Senior Faculty
+ * Add Profile Logic for RPLMS Senior Faculty Portal
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,17 +10,45 @@ function initAddProfile() {
     setupTabs();
     setupLivePreview();
     setupFormSubmission();
+    setupInputValidation();
     setupPasswordToggle();
     renderRecentProfiles();
 }
+/**
+ *  Validation
+ */
+function setupInputValidation() {
 
+    document.getElementById("fullName").addEventListener("input", function () {
+        this.value = this.value.replace(/[^A-Za-z.\- ]/g, "");
+    });
+
+    document.getElementById("phoneNumber").addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, "").slice(0, 10);
+    });
+
+    document.getElementById("email").addEventListener("input", function () {
+        this.value = this.value.replace(/\s/g, "");
+    });
+
+}
 /**
  * Handle Tab Switching
  */
+// function setupTabs() {
+//     const tabs = document.querySelectorAll('.tab-btn');
+//     const formTitle = document.querySelector('.form-section-title');
+//     const submitBtn = document.querySelector('button[type="submit"]');
+
 function setupTabs() {
     const tabs = document.querySelectorAll('.tab-btn');
     const formTitle = document.querySelector('.form-section-title');
     const submitBtn = document.querySelector('button[type="submit"]');
+
+    const batchGroup = document.getElementById('batchGroup');
+    const batchField = document.getElementById('batch');
+    const previewBatchItem = document.getElementById('previewBatchItem');
+
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -28,16 +56,38 @@ function setupTabs() {
             tab.classList.add('active');
             
             const tabType = tab.getAttribute('data-tab');
-            if (tabType === 'student') {
-                formTitle.textContent = 'Student Information';
-                submitBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Student`;
-            } else {
-                formTitle.textContent = 'Technical Staff Information';
-                submitBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Staff`;
-            }
-            
+            // if (tabType === 'student') {
+            //     formTitle.textContent = 'Student Information';
+            //     submitBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Student`;
+            // } 
+                if (tabType === 'student') {
+                    batchGroup.style.display = 'block';
+                    batchField.required = true;
+                    previewBatchItem.style.display = 'flex';
+
+                    formTitle.textContent = 'Student Information';
+
+                    submitBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Student`;
+                }
+                // else {
+                // formTitle.textContent = 'Technical Staff Information';
+                // submitBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Staff`;
+                // }
+                else {
+                    batchGroup.style.display = 'none';
+                    batchField.required = false;
+                    batchField.value = '';
+                    previewBatchItem.style.display = 'none';
+
+                    formTitle.textContent = 'Technical Staff Information';
+
+                    submitBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save Staff`;
+                }
+                            
             // Clear form when switching tabs if desired
-            document.getElementById('profileForm').reset();
+            const form = document.getElementById('profileForm');
+            form.reset();
+            clearFormValidation(form);
             updatePreview();
         });
     });
@@ -90,46 +140,128 @@ function setupPasswordToggle() {
 /**
  * Form Submission Logic
  */
-function setupFormSubmission() {
-    const form = document.getElementById('profileForm');
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
+// function setupFormSubmission() {
+//     const form = document.getElementById('profileForm');
+//     form.addEventListener('submit', (e) => {
+//         e.preventDefault();
         
-        // Basic match validation
-        const password = document.getElementById('password').value;
-        const confirm = document.getElementById('confirmPassword').value;
-        if (password !== confirm) {
-            alert('Passwords do not match!');
+//         // Basic match validation
+//         const password = document.getElementById('password').value;
+//         const confirm = document.getElementById('confirmPassword').value;
+//         if (password !== confirm) {
+//             alert('Passwords do not match!');
+//             return;
+//         }
+
+//         const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+        
+//         const profile = {
+//             id: Date.now(),
+//             name: document.getElementById('fullName').value,
+//             role: activeTab === 'student' ? 'Student' : 'Staff',
+//             department: document.getElementById('department').value,
+//             batch: document.getElementById('batch').value || '-',
+//             createdAt: new Date().toLocaleString(),
+//             rollNumber: document.getElementById('rollNumber').value || 'GEN-' + Math.floor(Math.random() * 1000)
+//         };
+
+//         // Save to LocalStorage
+//         let profiles = JSON.parse(localStorage.getItem('profiles') || '[]');
+//         profiles.unshift(profile); // Add to beginning
+//         localStorage.setItem('profiles', JSON.stringify(profiles));
+
+//         // Show Success Modal
+//         showModal();
+        
+//         // Reset and Re-render
+//         form.reset();
+//         updatePreview();
+//         renderRecentProfiles();
+//     });
+// }
+
+function setupFormSubmission() {
+
+    const form = document.getElementById("profileForm");
+
+    form.addEventListener("reset", () => {
+        setTimeout(() => clearFormValidation(form), 0);
+    });
+
+    form.addEventListener("submit", function(e){
+
+        e.preventDefault();
+
+        const fullNameEl = document.getElementById("fullName");
+        const dobEl = document.getElementById("dob");
+        const phoneEl = document.getElementById("phoneNumber");
+        const departmentEl = document.getElementById("department");
+        const batchEl = document.getElementById("batch");
+        const rollEl = document.getElementById("rollNumber");
+        const emailEl = document.getElementById("email");
+        const passwordEl = document.getElementById("password");
+        const confirmEl = document.getElementById("confirmPassword");
+
+        const fullName = fullNameEl.value.trim();
+        const dob = dobEl.value;
+        const phone = phoneEl.value.trim();
+        const department = departmentEl.value;
+        const batch = batchEl.value;
+        const roll = rollEl.value.trim();
+        const email = emailEl.value.trim();
+        const password = passwordEl.value;
+        const confirm = confirmEl.value;
+
+        if (!runValidations([
+            () => validateName(fullName, 'Full Name', fullNameEl),
+            () => validatePhone(phone, phoneEl, true),
+            () => validateEmail(email, emailEl),
+            () => validateRollNumber(roll, rollEl),
+            () => validateDepartment(department, departmentEl),
+            () => {
+                const activeTab = document.querySelector(".tab-btn.active").dataset.tab;
+                if (activeTab === "staff") {
+                    return { valid: true };
+                }
+                return validateBatch(batch, batchEl);
+            },
+            () => validateDate(dob, 'Date of Birth', dobEl, { required: true, notFuture: true }),
+            () => validatePassword(password, passwordEl),
+            () => validateConfirmPassword(password, confirm, confirmEl)
+        ], form)) {
             return;
         }
 
-        const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
-        
-        const profile = {
-            id: Date.now(),
-            name: document.getElementById('fullName').value,
-            role: activeTab === 'student' ? 'Student' : 'Staff',
-            department: document.getElementById('department').value,
-            batch: document.getElementById('batch').value || '-',
-            createdAt: new Date().toLocaleString(),
-            rollNumber: document.getElementById('rollNumber').value || 'GEN-' + Math.floor(Math.random() * 1000)
+        const activeTab=document.querySelector(".tab-btn.active").dataset.tab;
+
+        const profile={
+            id:Date.now(),
+            name:fullName,
+            role:activeTab==="student"?"Student":"Staff",
+            department:department,
+            batch: activeTab === "student" ? batch : "-",
+            createdAt:new Date().toLocaleString(),
+            rollNumber:roll
         };
 
-        // Save to LocalStorage
-        let profiles = JSON.parse(localStorage.getItem('profiles') || '[]');
-        profiles.unshift(profile); // Add to beginning
-        localStorage.setItem('profiles', JSON.stringify(profiles));
+        let profiles=JSON.parse(localStorage.getItem("profiles") || "[]");
 
-        // Show Success Modal
+        profiles.unshift(profile);
+
+        localStorage.setItem("profiles",JSON.stringify(profiles));
+
         showModal();
-        
-        // Reset and Re-render
-        form.reset();
-        updatePreview();
-        renderRecentProfiles();
-    });
-}
 
+        form.reset();
+        clearFormValidation(form);
+
+        updatePreview();
+
+        renderRecentProfiles();
+
+    });
+
+}
 function showModal() {
     document.getElementById('successModal').classList.add('show');
 }
@@ -163,7 +295,6 @@ function renderRecentProfiles() {
         row.innerHTML = `
             <td>${index + 1}</td>
             <td style="font-weight: 600;">${p.name}</td>
-            <td><span class="badge badge-${p.role.toLowerCase()}">${p.role}</span></td>
             <td>${p.department}</td>
             <td>${p.batch}</td>
             <td style="color: #64748b; font-size: 13px;">${p.createdAt}</td>
